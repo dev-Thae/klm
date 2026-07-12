@@ -1,0 +1,134 @@
+/**
+ * KLM Yayınları catalog — read from the database directory with plain Node fs,
+ * so it works no matter where the database lives (it is NOT served by Vite).
+ *
+ * Layout: <db>/books/<slug>/
+ *   meta.json  book metadata; the folder name must equal the "slug" field
+ *   cover.jpeg cover image (jpg/jpeg/png/webp), optional
+ * Series/category taxonomy lives in <db>/series.json (bundled via
+ * $lib/data/series.js). Validate the database with `npm run db:validate`.
+ *
+ * Default location is ./database next to package.json; point the KLM_DB_DIR
+ * environment variable at another path to move it anywhere.
+ *
+ * Covers are served by the prerendered endpoint /kapak/[file] (see
+ * src/routes/kapak/[file]/+server.js), which reads coverPathFor() below.
+ * Adding a book = adding a directory; every page derives from this module.
+ */
+import { readdirSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import { base } from '$app/paths';
+import { seriesList } from '$lib/data/series.js';
+
+/**
+ * Filler so the shelf looks stocked while the catalog is small: each real book
+ * is cloned this many times, cycled across the series, and tagged "demo".
+ * Set to 0 once the real catalog is in the database.
+ */
+const DEMO_COPIES_PER_BOOK = 0;
+
+const DB_BOOKS_DIR = path.resolve(process.cwd(), process.env.KLM_DB_DIR ?? 'database', 'books');
+
+/** cover URL filename (ascii slug + ext) → absolute path on disk */
+const coverPaths = new Map();
+
+const joined = (names) => (names?.length ? names.join(', ') : null);
+
+const sourceBooks = readdirSync(DB_BOOKS_DIR, { withFileTypes: true })
+	.filter((entry) => entry.isDirectory())
+	.flatMap((entry) => {
+		const dirPath = path.join(DB_BOOKS_DIR, entry.name);
+		const files = readdirSync(dirPath);
+		if (!files.includes('meta.json')) return [];
+
+		const meta = JSON.parse(readFileSync(path.join(dirPath, 'meta.json'), 'utf-8'));
+		const slug = meta.slug ?? entry.name;
+
+		// books without a cover image fall back to the plain default in static/
+		let cover = `${base}/kapak-varsayilan.svg`;
+		const coverFile = files.find((f) => /^cover\.(jpe?g|png|webp)$/i.test(f));
+		if (coverFile) {
+			const urlName = slug + path.extname(coverFile).toLowerCase();
+			coverPaths.set(urlName, path.join(dirPath, coverFile));
+			cover = `${base}/kapak/${urlName}`;
+		}
+
+		return [
+			{
+				id: meta.id,
+				slug,
+				title: meta.title ?? entry.name,
+				subtitle: meta.subtitle ?? null,
+				author: joined(meta.authors),
+				// short byline for cover grids; the full list stays on the book page
+				authorShort:
+					(meta.authors?.length ?? 0) > 2
+						? meta.authors.slice(0, 2).join(', ') + '…'
+						: joined(meta.authors),
+				editor: joined(meta.editors),
+				translator: joined(meta.translators),
+				publisher: meta.publisher ?? null,
+				isbn: meta.isbn ?? null,
+				year: meta.year ?? null,
+				edition: meta.edition ?? null,
+				pages: meta.pages ?? null,
+				language: meta.language ?? null,
+				description: meta.description ?? null,
+				categories: meta.categories ?? [],
+				links: meta.links ?? {},
+				series: meta.series ?? 'mutenevvia',
+				cover,
+				demo: false
+			}
+		];
+	})
+	.sort(byId);
+
+/** Numeric (real) ids first in order, then temp-N ids in import order. */
+function byId(a, b) {
+	const na = Number(a.id);
+	const nb = Number(b.id);
+	if (!Number.isNaN(na) && !Number.isNaN(nb)) return na - nb;
+	if (!Number.isNaN(na)) return -1;
+	if (!Number.isNaN(nb)) return 1;
+	return String(a.id).localeCompare(String(b.id), undefined, { numeric: true });
+}
+
+const demoBooks = [];
+for (let copy = 1; copy <= DEMO_COPIES_PER_BOOK; copy++) {
+	for (const [i, book] of sourceBooks.entries()) {
+		demoBooks.push({
+			...book,
+			slug: `${book.slug}-demo-${copy}`,
+			series: seriesList[(copy * sourceBooks.length + i) % seriesList.length].id,
+			demo: true
+		});
+	}
+}
+
+export const books = [...sourceBooks, ...demoBooks];
+
+export function coverPathFor(file) {
+	return coverPaths.get(file);
+}
+
+export function coverEntries() {
+	return [...coverPaths.keys()].map((file) => ({ file }));
+}
+
+/** The real (non-demo) books, newest first — drives the home-page shelf row. */
+export function newReleases(limit = 8) {
+	return [...sourceBooks].sort((a, b) => (b.year ?? 0) - (a.year ?? 0)).slice(0, limit);
+}
+
+export function booksBySeries(id) {
+	return books.filter((b) => b.series === id);
+}
+
+export function bookBySlug(slug) {
+	return books.find((b) => b.slug === slug);
+}
+
+export function relatedBooks(book, limit = 4) {
+	return books.filter((b) => b.series === book.series && b.slug !== book.slug).slice(0, limit);
+}

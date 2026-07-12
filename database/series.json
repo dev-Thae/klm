@@ -1,0 +1,32 @@
+[
+	{
+		"id": "sistematik",
+		"slug": "sistematik-kelam",
+		"label": "Sistematik Kelam",
+		"description": "Kelam tarihi, metodolojisi ve inanç esaslarına sistematik yaklaşımlar."
+	},
+	{
+		"id": "sosyal",
+		"slug": "sosyal-kelam",
+		"label": "Sosyal Kelam",
+		"description": "Siyaset, insan hakları, din özgürlüğü ve ekoloji ekseninde kelam."
+	},
+	{
+		"id": "yontembilim",
+		"slug": "yontembilim",
+		"label": "Yöntembilim",
+		"description": "Akademik araştırma yöntem ve teknikleri."
+	},
+	{
+		"id": "yabanci",
+		"slug": "yabanci-dil",
+		"label": "Yabancı Dil",
+		"description": "Uluslararası okuyucu için yabancı dilde çalışmalar."
+	},
+	{
+		"id": "mutenevvia",
+		"slug": "mutenevvia",
+		"label": "Mütenevvia",
+		"description": "Dil araştırmalarından meslek ahlakına, dizilerin dışında kalan eserler."
+	}
+]

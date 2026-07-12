@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="tr">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		<script>
+			// light by default; apply dark before paint only if the visitor chose it
+			try {
+				if (localStorage.getItem('theme') === 'dark') {
+					document.documentElement.dataset.theme = 'dark';
+				}
+			} catch (e) {}
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

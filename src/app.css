@@ -1,0 +1,146 @@
+/* KLM Yayınları design tokens — lacivert ink, gilding gold, series-coded hues.
+   Light is the default; dark applies only when the header toggle sets
+   data-theme="dark" on <html> (persisted in localStorage). */
+:root {
+	color-scheme: light;
+	--paper: #f6f5f1;
+	--surface: #fdfcf9;
+	--ink: #1b2437;
+	--muted: #5a6172;
+	--line: #dfdbd0;
+	--lacivert: #27457f;
+	--on-lacivert: #f6f5f1;
+	--gold: #a8842f;
+	--gold-soft: rgba(168, 132, 47, 0.12);
+	--c-sistematik: #27457f;
+	--c-sosyal: #2f6e68;
+	--c-yontembilim: #6e3a5c;
+	--c-yabanci: #5a6b33;
+	--c-mutenevvia: #9c5a32;
+	--shadow: 0 1px 2px rgba(27, 36, 55, 0.05), 0 12px 32px -16px rgba(27, 36, 55, 0.18);
+	--serif: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+	--sans: 'Avenir Next', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--paper: #121927;
+	--surface: #1a2334;
+	--ink: #e8e6dd;
+	--muted: #9aa1b2;
+	--line: #2b3549;
+	--lacivert: #8ca9dc;
+	--on-lacivert: #121927;
+	--gold: #cfa34d;
+	--gold-soft: rgba(207, 163, 77, 0.14);
+	--c-sistematik: #8ca9dc;
+	--c-sosyal: #6fb3ac;
+	--c-yontembilim: #c08bad;
+	--c-yabanci: #a9bc72;
+	--c-mutenevvia: #d19a6e;
+	--shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -16px rgba(0, 0, 0, 0.5);
+}
+
+* {
+	box-sizing: border-box;
+}
+html {
+	scroll-padding-top: 84px;
+}
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+}
+body {
+	margin: 0;
+	background: var(--paper);
+	color: var(--ink);
+	font-family: var(--serif);
+	font-size: 17px;
+	line-height: 1.6;
+}
+a {
+	color: var(--lacivert);
+}
+:focus-visible {
+	outline: 2px solid var(--gold);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+
+.wrap {
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 0 24px;
+}
+.eyebrow {
+	font-family: var(--sans);
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--gold);
+}
+.btn {
+	display: inline-block;
+	font-family: var(--sans);
+	font-size: 0.92rem;
+	font-weight: 600;
+	text-decoration: none;
+	padding: 12px 24px;
+	border-radius: 3px;
+	border: 1px solid transparent;
+	cursor: pointer;
+	transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.btn-primary {
+	background: var(--lacivert);
+	color: var(--on-lacivert);
+}
+.btn-ghost {
+	border-color: var(--line);
+	color: var(--ink);
+	background: var(--surface);
+}
+.btn:hover {
+	transform: translateY(-1px);
+	box-shadow: var(--shadow);
+}
+@media (prefers-reduced-motion: reduce) {
+	.btn {
+		transition: none;
+	}
+	.btn:hover {
+		transform: none;
+	}
+}
+
+section {
+	padding: 80px 0;
+}
+section + section {
+	border-top: 1px solid var(--line);
+}
+.sec-head {
+	max-width: 60ch;
+	margin-bottom: 40px;
+}
+.sec-head h2 {
+	margin: 12px 0 10px;
+	font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+	font-weight: 500;
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+}
+.sec-head p {
+	margin: 0;
+	color: var(--muted);
+}
+
+/* book grid — cards themselves are styled in BookCover.svelte */
+.covers {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
+	gap: 24px 20px;
+}

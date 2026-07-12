@@ -1,0 +1,33 @@
+{
+	"id": "temp-1",
+	"slug": "kelamda-teodise",
+	"title": "Kelamda Teodise",
+	"subtitle": null,
+	"authors": [
+		"Ekrem Uysal",
+		"Yasin Ulutaş",
+		"İbrahim Halil Erdoğan",
+		"Veysel Kasar",
+		"Mehmet Tözluyurt",
+		"Mehmet Salih Gecit"
+	],
+	"editors": [
+		"Recep Ardoğan",
+		"Furat Akdemir"
+	],
+	"translators": [],
+	"publisher": "klm yayınları",
+	"isbn": null,
+	"year": null,
+	"edition": null,
+	"pages": 196,
+	"language": "tr",
+	"series": null,
+	"categories": [
+		"Religion / Theology"
+	],
+	"description": null,
+	"links": {
+		"googlePlay": "https://play.google.com/store/books/details?id=GhM3EQAAQBAJ"
+	}
+}
