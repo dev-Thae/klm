@@ -46,11 +46,20 @@ const sourceBooks = readdirSync(DB_BOOKS_DIR, { withFileTypes: true })
 
 		// books without a cover image fall back to the plain default in static/
 		let cover = `${base}/kapak-varsayilan.svg`;
+		let coverThumb = cover;
 		const coverFile = files.find((f) => /^cover\.(jpe?g|png|webp)$/i.test(f));
 		if (coverFile) {
-			const urlName = slug + path.extname(coverFile).toLowerCase();
-			coverPaths.set(urlName, path.join(dirPath, coverFile));
-			cover = `${base}/kapak/${urlName}`;
+			const srcPath = path.join(dirPath, coverFile);
+			// two resized/recompressed jpeg variants: a small one for grid
+			// listings and a larger one for the book detail page — the
+			// originals can be several MB each, far bigger than they're
+			// ever displayed at, see src/routes/kapak/[file]/+server.js
+			const thumbName = `${slug}-thumb.jpg`;
+			const largeName = `${slug}-large.jpg`;
+			coverPaths.set(thumbName, srcPath);
+			coverPaths.set(largeName, srcPath);
+			coverThumb = `${base}/kapak/${thumbName}`;
+			cover = `${base}/kapak/${largeName}`;
 		}
 
 		return [
@@ -78,6 +87,7 @@ const sourceBooks = readdirSync(DB_BOOKS_DIR, { withFileTypes: true })
 				links: meta.links ?? {},
 				series: meta.series ?? 'mutenevvia',
 				cover,
+				coverThumb,
 				demo: false
 			}
 		];

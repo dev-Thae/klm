@@ -8,7 +8,12 @@
 <a class="shelf-item" href={`${base}/kitap/${book.slug}`} title={book.title}>
 	<span class="jacket" data-series={book.series}>
 		{#if book.cover}
-			<img src={book.cover} alt={`${book.title} — kapak`} loading="lazy" />
+			<img
+				src={book.coverThumb ?? book.cover}
+				alt={`${book.title} — kapak`}
+				loading="lazy"
+				decoding="async"
+			/>
 		{:else}
 			<span class="jacket-type">
 				<span class="jacket-series">{seriesLabel(book.series)}</span>
