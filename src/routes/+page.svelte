@@ -3,6 +3,7 @@
 	import { seriesList } from '$lib/data/series.js';
 	import BookCover from '$lib/components/BookCover.svelte';
 	import HeroPattern from '$lib/components/HeroPattern.svelte';
+	import PublishBanner from '$lib/components/PublishBanner.svelte';
 
 	let { data } = $props();
 </script>
@@ -14,6 +15,8 @@
 		content="KLM Yayınları — Kelâm araştırmaları yayınevi arşivi. Sistematik kelam, sosyal kelam, yöntembilim ve daha fazlası; e-kitap ve matbu."
 	/>
 </svelte:head>
+
+<PublishBanner />
 
 <div class="hero">
 	<HeroPattern />

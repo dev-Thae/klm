@@ -59,6 +59,15 @@
 		overflow: hidden;
 		background: var(--surface);
 		box-shadow: var(--shadow);
+		transition: box-shadow 140ms ease;
+	}
+	.shelf-item:hover .jacket {
+		box-shadow: var(--shadow-hover);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.jacket {
+			transition: none;
+		}
 	}
 	.jacket img {
 		position: absolute;

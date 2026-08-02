@@ -5,14 +5,14 @@ import os
 ROOT_DIR = r"D:\\Temp\workspaces\\github\\klmyayinlari\\database\\books"
 
 for root, dirs, files in os.walk(ROOT_DIR):
-    jpg_files = [f for f in files if f.lower().endswith(".jpg")]
-    print(jpg_files)
-    if not jpg_files:
+    image_files = [f for f in files if f.lower().endswith((".jpg", ".jpeg", ".png"))]
+    print(image_files)
+    if not image_files:
         continue
 
-    # Rename the first JPG file to cover.jpg
-    source = Path(root) / jpg_files[0]
-    destination = Path(root) / "cover.jpg"
+    # Rename the first image file to cover.<ext>
+    source = Path(root) / image_files[0]
+    destination = Path(root) / f"cover{source.suffix.lower()}"
 
     if destination.exists():
         print(f"Skipped (cover.jpg already exists): {root}")
