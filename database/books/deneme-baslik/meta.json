@@ -1,0 +1,27 @@
+{
+	"id": 3,
+	"slug": "deneme-baslik",
+	"title": "deneme başlık",
+	"subtitle": "deneme alt başlık",
+	"authors": [
+		"deneme yazar",
+		"deneme yazan",
+		"deneme çözen"
+	],
+	"editors": [
+		"deneme edit"
+	],
+	"translators": [],
+	"publisher": "klm yayınları",
+	"isbn": "9781375109258",
+	"year": 2027,
+	"edition": 2,
+	"pages": 1453,
+	"language": "tr",
+	"series": null,
+	"categories": [],
+	"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pharetra in lorem et accumsan. Ut congue, nisi ac bibendum gravida, sapien justo porttitor magna, ut dapibus lacus felis a nunc. Sed sed commodo ante. Quisque dictum tincidunt sapien, in aliquet nulla semper nec. Ut malesuada varius lacus, vel egestas eros ullamcorper nec. Suspendisse venenatis elit nec auctor elementum. Duis scelerisque gravida faucibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc tortor est, varius sed tempor non, rutrum et eros. Nullam vehicula, odio non semper elementum, orci sapien tempus lorem, in tincidunt lectus lorem ut metus. Etiam tortor dui, vehicula sed ultricies nec, gravida a arcu. Nulla facilisi. Sed luctus ante vitae sapien aliquet rhoncus in sit amet magna. Donec non magna dui.\n\nVivamus vulputate sit amet nibh in ultricies. Nunc felis turpis, gravida eu pretium vel, sagittis ac leo. Curabitur eu pretium diam, vel laoreet diam. Sed lacinia ex lacus, et viverra felis viverra at. Pellentesque molestie turpis diam, vitae fermentum turpis tempus non. Ut luctus justo eu ipsum auctor, elementum placerat neque vestibulum. Cras egestas nibh vitae facilisis feugiat. Morbi erat velit, mollis vel efficitur eget, condimentum venenatis risus. Maecenas condimentum interdum ante, a viverra tellus lacinia ut. Duis volutpat tortor eu dignissim lobortis. Curabitur vehicula, est sit amet tempor sodales, mauris turpis maximus velit, et sagittis libero arcu sit amet diam. Vivamus vehicula posuere justo, quis iaculis erat porta et. In posuere neque eget mi commodo, porta faucibus libero posuere. Duis vulputate dapibus turpis, sed sagittis neque aliquam id. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n\nVivamus maximus diam sagittis, lobortis diam nec, pellentesque urna. Sed metus ipsum, ornare nec magna vitae, sollicitudin imperdiet elit. Quisque imperdiet posuere nisi, vel volutpat diam semper vitae. Quisque non ipsum pretium, vestibulum felis ac, sagittis nibh. Ut tempor sagittis faucibus. Ut vitae orci interdum, mollis sem sit amet, laoreet velit. Sed eleifend nec mauris vel interdum. Integer quis sollicitudin ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aliquam imperdiet cursus mi, id mollis risus maximus eget.\n\nInteger eu dapibus magna. Cras pharetra dolor vitae turpis sollicitudin varius. Maecenas tempus accumsan efficitur. Cras consectetur, ante id tincidunt dignissim, quam enim maximus nulla, a gravida diam nunc vel velit. Etiam euismod tristique est id ullamcorper. Vestibulum ac tincidunt diam. Quisque quam mauris, vulputate eu elit finibus, rutrum vulputate arcu. Aliquam erat volutpat. Aenean sit amet mauris sem. Vestibulum sem leo, volutpat nec finibus id, tempor id elit. Pellentesque lacinia purus lorem, ac ultricies justo ultricies et.\n\nPellentesque justo mi, dapibus vel eleifend non, cursus et diam. Ut pulvinar vehicula tortor, id laoreet purus dapibus aliquam. In interdum sagittis imperdiet. Proin malesuada neque ut laoreet facilisis. Nam nec commodo ante. Quisque a iaculis lorem. Aliquam vitae dui ut turpis mollis mattis in in leo.",
+	"links": {
+		"googlePlay": "https://google.com"
+	}
+}
