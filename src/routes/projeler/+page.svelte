@@ -40,6 +40,8 @@
 <svelte:head>
 	<title>Projeler — KLM Yayınları</title>
 	<meta name="description" content="KLM Yayınları'nın yürüttüğü araştırma ve yayın projeleri." />
+	<!-- hidden page: built but not linked from the nav, kept out of search results -->
+	<meta name="robots" content="noindex" />
 </svelte:head>
 
 <section class="projects">

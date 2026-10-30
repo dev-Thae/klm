@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { base } from '$app/paths';
-	import { seriesList } from '$lib/data/series.js';
 
 	let open = $state(false);
 	let dark = $state(false);
@@ -23,9 +22,8 @@
 
 	const primary = [
 		{ href: '/', label: 'Yuva' },
-		{ href: '/katalog', label: 'Katalog' },
-		{ href: '/projeler', label: 'Projeler' },
-		{ href: '/etkinlikler', label: 'Etkinlikler' },
+		{ href: '/katalog', label: 'Yayınlarımız' },
+		{ href: '/magaza', label: 'Mağaza' },
 		{ href: '/iletisim', label: 'İletişim' }
 	];
 
@@ -38,10 +36,6 @@
 	function isActive(href) {
 		const path = currentPath();
 		return href === '/' ? path === '/' : path.startsWith(href);
-	}
-
-	function isSeriesActive(slug) {
-		return currentPath() === `/dizi/${slug}`;
 	}
 
 	function close() {
@@ -99,39 +93,11 @@
 		</div>
 	</div>
 
-	<div class="series-bar" aria-label="Diziler">
-		<nav class="series-nav">
-			{#each seriesList as s (s.id)}
-				<a
-					href={`${base}/dizi/${s.slug}`}
-					style={`--sc: var(--c-${s.id})`}
-					aria-current={isSeriesActive(s.slug) ? 'page' : undefined}
-				>
-					<span class="dot" aria-hidden="true"></span>
-					{s.label}
-				</a>
-			{/each}
-		</nav>
-	</div>
-
 	{#if open}
 		<nav class="mobile" id="mobile-menu" aria-label="Site (mobil)">
 			{#each primary as item (item.href)}
 				<a href={`${base}${item.href}`} aria-current={isActive(item.href) ? 'page' : undefined} onclick={close}>
 					{item.label}
-				</a>
-			{/each}
-			<span class="mobile-label">Diziler</span>
-			{#each seriesList as s (s.id)}
-				<a
-					class="mobile-series"
-					href={`${base}/dizi/${s.slug}`}
-					style={`--sc: var(--c-${s.id})`}
-					aria-current={isSeriesActive(s.slug) ? 'page' : undefined}
-					onclick={close}
-				>
-					<span class="dot" aria-hidden="true"></span>
-					{s.label}
 				</a>
 			{/each}
 		</nav>
@@ -153,7 +119,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 24px;
-		padding: 14px 24px 10px;
+		padding: 14px 24px;
 		max-width: 1120px;
 		margin: 0 auto;
 	}
@@ -192,48 +158,6 @@
 	nav.primary a[aria-current='page'] {
 		color: var(--ink);
 		background: var(--gold-soft);
-	}
-
-	/* series tier */
-	.series-bar {
-		border-top: 1px solid var(--line);
-	}
-	.series-nav {
-		max-width: 1120px;
-		margin: 0 auto;
-		padding: 0 24px;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 2px 18px;
-		font-family: var(--sans);
-		font-size: 0.76rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-	.series-nav a {
-		--sc: var(--gold);
-		display: inline-flex;
-		align-items: center;
-		gap: 7px;
-		color: var(--muted);
-		text-decoration: none;
-		padding: 9px 2px;
-		border-bottom: 2px solid transparent;
-	}
-	.series-nav a:hover {
-		color: var(--ink);
-	}
-	.series-nav a[aria-current='page'] {
-		color: var(--ink);
-		border-bottom-color: var(--sc);
-	}
-	.dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: var(--sc);
-		flex-shrink: 0;
 	}
 
 	.bar-actions {
@@ -275,15 +199,11 @@
 		display: none;
 	}
 	@media (max-width: 860px) {
-		nav.primary,
-		.series-bar {
+		nav.primary {
 			display: none;
 		}
 		.menu-btn {
 			display: block;
-		}
-		.site-bar {
-			padding-bottom: 14px;
 		}
 		.mobile {
 			display: flex;
@@ -302,20 +222,6 @@
 		}
 		.mobile a[aria-current='page'] {
 			color: var(--gold);
-		}
-		.mobile-label {
-			font-size: 0.7rem;
-			font-weight: 600;
-			letter-spacing: 0.14em;
-			text-transform: uppercase;
-			color: var(--muted);
-			padding: 16px 4px 4px;
-		}
-		.mobile-series {
-			--sc: var(--gold);
-			display: inline-flex;
-			align-items: center;
-			gap: 8px;
 		}
 	}
 </style>

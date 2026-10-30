@@ -40,7 +40,7 @@
 <section class="book">
 	<div class="wrap">
 		<nav class="crumb" aria-label="Konum">
-			<a href={`${base}/katalog`}>← Katalog</a>
+			<a href={`${base}/katalog`}>← Yayınlarımız</a>
 		</nav>
 
 		{#if book.demo}

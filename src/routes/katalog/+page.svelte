@@ -23,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>Katalog — KLM Yayınları</title>
+	<title>Yayınlarımız — KLM Yayınları</title>
 	<meta
 		name="description"
 		content="KLM Yayınları katalogu: kelam ve din bilimleri alanındaki tüm eserler; dizilere göre süzün, başlık veya yazara göre arayın."
@@ -33,7 +33,7 @@
 <section id="katalog">
 	<div class="wrap">
 		<div class="sec-head">
-			<span class="eyebrow">Katalog</span>
+			<span class="eyebrow">Yayınlarımız</span>
 			<h1>Yayımlanan eserler</h1>
 			<p>Her eserin kendi sayfası vardır; künye ve satın alma bağlantıları oradadır.</p>
 		</div>

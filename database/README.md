@@ -1,7 +1,8 @@
 # Book database
 
 Everything the site knows about the catalog lives here, as plain files you can
-edit by hand. Rebuild the site (`npm run build`) after any change.
+edit by hand — or add through the admin page, `/yonetim` (see the main README).
+Rebuild the site (`npm run build`) after any change.
 
 ```
 database/
@@ -10,6 +11,9 @@ database/
     meta.json          all metadata for the book
     cover.jpeg         cover image (jpg/jpeg/png/webp); if missing, the site
                        shows the plain default (static/kapak-varsayilan.svg)
+  ikinci-el/<slug>/    one folder per secondhand book for sale in the Mağaza
+    meta.json          see "Secondhand books" below
+    cover.jpg          optional photo; without one the card shows a typographic cover
   googlebookslist.csv  Google Play Books export (import source, not read by the site)
 ```
 
@@ -42,6 +46,22 @@ Removing or renaming a folder removes/renames the book. Nothing else to update.
 | `categories` | `["Religion / Theology"]` | free-form subject tags (BISAC) |
 | `description` | | plain text, `\n\n` between paragraphs |
 | `links.googlePlay` | | store URL or `null` |
+
+## Secondhand books (`ikinci-el/`)
+
+Single copies sold through the Mağaza page; delete the folder once a book is sold.
+
+| Field | Example | Notes |
+|---|---|---|
+| `slug` | `"mukaddime"` | required, must equal the folder name |
+| `title` | `"Mukaddime"` | required |
+| `price` | `380` or `249.9` | required, TL |
+| `authors` | `["İbn Haldun"]` | array, may be empty |
+| `publisher`, `year` | `"Dergâh Yayınları"`, `2015` | or `null` |
+| `condition` | `"Çok iyi"` | Yeni gibi / Çok iyi / İyi / Orta / Yıpranmış |
+| `description` | | plain text: condition notes, volumes… |
+| `added` | `"2026-10-30"` | date listed; the Mağaza shows newest first |
+| `demo` | `true` | sample item, shown with an "örnek" tag — delete before going live |
 
 ## Importing from the Google Play export
 

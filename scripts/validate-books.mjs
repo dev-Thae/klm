@@ -1,6 +1,7 @@
 /**
- * Validates the hand-editable book database (each database/books/<slug>/meta.json
- * plus database/series.json). Run after editing: npm run db:validate
+ * Validates the hand-editable book database (each database/books/<slug>/meta.json,
+ * each database/ikinci-el/<slug>/meta.json, plus database/series.json).
+ * Run after editing: npm run db:validate
  *
  * Errors (exit 1): broken JSON, missing required fields, slug/folder mismatch,
  * duplicate slug/isbn/id, unknown series, malformed ISBN.
@@ -12,6 +13,7 @@ import path from 'node:path';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DB_DIR = path.resolve(ROOT, process.env.KLM_DB_DIR ?? 'database');
 const BOOKS_DIR = path.join(DB_DIR, 'books');
+const SECONDHAND_DIR = path.join(DB_DIR, 'ikinci-el');
 
 const errors = [];
 const warnings = [];
@@ -127,9 +129,67 @@ for (const entry of readdirSync(BOOKS_DIR, { withFileTypes: true })) {
 	if (!files.some((f) => /^cover\.(jpe?g|png|webp)$/i.test(f))) warn(name, 'no cover image');
 }
 
+/* ---------- secondhand books (Mağaza) ---------- */
+
+const SECONDHAND_KEYS = new Set([
+	'slug',
+	'title',
+	'authors',
+	'publisher',
+	'year',
+	'condition',
+	'price',
+	'description',
+	'added',
+	'demo'
+]);
+
+let secondhandCount = 0;
+const secondhandDirs = existsSync(SECONDHAND_DIR)
+	? readdirSync(SECONDHAND_DIR, { withFileTypes: true }).filter((entry) => entry.isDirectory())
+	: [];
+
+for (const entry of secondhandDirs) {
+	const name = `ikinci-el/${entry.name}`;
+	const file = path.join(SECONDHAND_DIR, entry.name, 'meta.json');
+
+	if (!existsSync(file)) {
+		err(name, 'meta.json is missing');
+		continue;
+	}
+	let meta;
+	try {
+		meta = JSON.parse(readFileSync(file, 'utf-8'));
+	} catch (e) {
+		err(name, `meta.json is not valid JSON — ${e.message}`);
+		continue;
+	}
+	secondhandCount++;
+
+	for (const key of ['slug', 'title', 'price']) {
+		if (meta[key] === undefined || meta[key] === null || meta[key] === '')
+			err(name, `required field "${key}" is missing`);
+	}
+	for (const key of Object.keys(meta)) {
+		if (!SECONDHAND_KEYS.has(key)) warn(name, `unknown field "${key}" (typo?)`);
+	}
+	if (meta.slug && meta.slug !== entry.name)
+		err(name, `folder name must equal slug ("${meta.slug}") — rename one of them`);
+	if (meta.authors !== undefined && !Array.isArray(meta.authors))
+		err(name, '"authors" must be an array');
+	if (meta.price != null && !(typeof meta.price === 'number' && meta.price >= 0))
+		err(name, `"price" must be a number in TL, not ${JSON.stringify(meta.price)}`);
+	if (meta.year != null && !Number.isInteger(meta.year))
+		err(name, `"year" must be a number, not ${JSON.stringify(meta.year)}`);
+	if (meta.demo) warn(name, 'sample (demo) item — delete it before going live');
+}
+
 /* ---------- report ---------- */
 
 for (const w of warnings) console.warn(`WARN  ${w}`);
 for (const e of errors) console.error(`ERROR ${e}`);
-console.log(`\n${count} books checked: ${errors.length} error(s), ${warnings.length} warning(s).`);
+console.log(
+	`\n${count} books + ${secondhandCount} secondhand books checked: ` +
+		`${errors.length} error(s), ${warnings.length} warning(s).`
+);
 process.exit(errors.length ? 1 : 0);

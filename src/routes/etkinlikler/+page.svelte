@@ -32,6 +32,8 @@
 <svelte:head>
 	<title>Etkinlikler — KLM Yayınları</title>
 	<meta name="description" content="KLM Yayınları etkinlikleri: sempozyumlar, tanıtımlar ve atölyeler." />
+	<!-- hidden page: built but not linked from the nav, kept out of search results -->
+	<meta name="robots" content="noindex" />
 </svelte:head>
 
 <section class="events">

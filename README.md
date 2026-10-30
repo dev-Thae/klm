@@ -5,27 +5,56 @@ Modern rebuild of [klmyayinlari.com](https://www.klmyayinlari.com/). See `DEVELO
 ## Structure
 
 ```
-database/books/          SOURCE OF TRUTH: one directory per book (meta.txt + cover image)
+database/books/          SOURCE OF TRUTH: one directory per published book (meta.json + cover)
+database/ikinci-el/      secondhand books for sale in the Mağaza (see database/README.md)
 site/index.html          Static preview (self-contained, covers embedded — open directly in a browser)
 src/                     SvelteKit app (Svelte 5, static output)
   lib/server/catalog.js  Reads database/ with Node fs at build time (works outside Vite's
                          asset pipeline); demo-copy count + parsing live here
   lib/data/series.js     Client-safe series list + pure helpers
+  lib/data/site.js       Contact e-mail, IBAN details for Mağaza orders, GitHub repo for /yonetim
+  lib/admin/             Admin page pieces: GitHub API client, add-book form, secondhand list
   routes/kapak/[file]/   Endpoint that serves covers from the database directory;
                          prerendering writes them into build/ as /kapak/<slug>.jpeg
   routes/
-    +page.svelte           Yuva (home): hero, series, filterable catalog, publishing process, contact
+    +page.svelte           Yuva (home): publishing-service advert, process, latest books
+    katalog/               Yayınlarımız: every published book, filter + search
     yeniler/               New releases (placeholder list until real dates are supplied)
     dizi/[slug]/           One prerendered page per series (5 pages)
     kitap/[slug]/          One prerendered page per book (31 pages)
-    projeler/              Projects page (placeholder/mock content, marked as such)
-    etkinlikler/           Events page (placeholder/mock content, marked as such)
+    magaza/                Mağaza: secondhand books; cart → order by e-mail → payment by IBAN
+    yonetim/               Admin (hidden, noindex): add books, remove sold secondhand books
+    projeler/              Projects page (hidden: not in the nav, noindex)
+    etkinlikler/           Events page (hidden: not in the nav, noindex)
     iletisim/              Contact page
 ```
 
-Navigation mirrors the original site's page map: Yuva · Yeniler · the five series ·
-Projeler · Etkinlikler · İletişim. The header is two-tier on desktop (primary pages +
-series row) and collapses to a hamburger menu under 860px.
+Navigation: Yuva · Yayınlarımız · Mağaza · İletişim, collapsing to a menu button under
+860px. Projeler, Etkinlikler and the series pages (`/dizi/...`, linked from book pages)
+are still built but not in the nav; add pages back to `primary` in
+`src/lib/components/Header.svelte` to show them again.
+
+## Mağaza orders and payment
+
+The site is static, so there is no checkout. A customer fills the cart, the order opens
+in their e-mail app addressed to `CONTACT_EMAIL` (with a copy-paste fallback), and they
+get an order code to quote in their bank transfer. Fill in `PAYMENT` in
+`src/lib/data/site.js` (IBAN, account holder, bank) to show the account after ordering;
+while it is empty the page says the IBAN will be sent by e-mail.
+
+## Admin page (`/yonetim`)
+
+Adds published books and secondhand books, and removes sold secondhand books, without
+editing files. It is not linked anywhere and is marked `noindex`, but that is only
+courtesy: the real protection is that every save is a git commit made through the GitHub
+API with the admin's own access token, so only accounts with write access to the repo
+can change anything. The token stays in the admin's browser and is sent only to GitHub.
+Each save triggers the deploy workflow; the change is live a few minutes later.
+
+To sign in, create a fine-grained token at
+<https://github.com/settings/personal-access-tokens/new> with **Repository access → only
+this repo** and **Contents: Read and write**, and give it an expiry date. Revoking the
+token in GitHub settings locks it out immediately.
 
 ## Run
 
